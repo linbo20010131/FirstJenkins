@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yr.dao.SchoolDao">
+
+    <resultMap id="getSchool" type="School">
+        <id property="id" column="scid"/>
+        <result property="schoolName" column="schoolname"/>
+    </resultMap>
+
+    <select id="getAll" resultMap="getSchool">
+        select * from my_school
+    </select>
+
+
+    <select id="getById" resultMap="getSchool" parameterType="java.lang.Integer">
+        select * from my_school where scid = #{id}
+    </select>
+
+</mapper>

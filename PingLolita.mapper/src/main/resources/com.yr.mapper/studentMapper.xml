@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yr.dao.StudentDao">
+
+
+    <!--添加-->
+    <insert id="save" parameterType="Student" useGeneratedKeys="true" keyProperty="id">
+        insert into my_student (name,emil,sex,time,moeny,head,school_id)
+         VALUES(#{name},#{emil},#{sex},#{Time},#{moeny},#{head},#{schoolId});
+    </insert>
+
+
+    <!--删除-->
+    <delete id="delete" parameterType="java.lang.Integer">
+        DELETE from my_student where id = #{id}
+    </delete>
+
+    <!--返回map类型-->
+    <resultMap id="stuMap" type="Student">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="emil" column="emil"/>
+        <result property="sex" column="sex"/>
+        <result property="Time" column="time"/>
+        <result property="moeny" column="moeny"/>
+        <result property="head" column="head"/>
+        <result property="schoolId" column="school_id"/>
+        <association property="school" javaType="School">
+            <id property="id" column="scid"/>
+            <result property="schoolName" column="schoolname"/>
+        </association>
+    </resultMap>
+
+    <!--获取所有没有分页-->
+    <select id="getAll" resultMap="stuMap">
+        select * from my_school sc join my_student st on sc.scid = st.school_id
+    </select>
+
+    <!--根据id查询-->
+    <select id="getById" resultMap="stuMap" parameterType="java.lang.Integer">
+        select * from my_student st left join my_school sc on sc.scid = st.school_id where st.id = #{id}
+    </select>
+
+    <!--修改-->
+    <update id="update" parameterType="Student">
+        update my_student set name=#{name},emil=#{emil},sex=#{sex},time=#{Time},moeny=#{moeny},head=#{head},school_id=#{
+        schoolId} where id=#{id}
+    </update>
+
+    <!--分页查询  放入list-->
+    <select id="pageList" parameterType="Page" resultMap="stuMap">
+        select * from my_student st left join my_school sc on sc.scid = st.school_id LIMIT #{start},#{pageSize}
+    </select>
+
+    <!--查询总记录  放入sum-->
+    <select id="getCount" resultType="java.lang.Long">
+        select count(*) from my_student
+    </select>
+
+
+
+
+
+
+</mapper>
